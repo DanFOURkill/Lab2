@@ -1,0 +1,6 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+:root{--background:#f8f3ef;--surface:#fffaf7;--primary:#a74855;--primary-soft:#e8c4c8;--text:#2d2727;--muted:#756969;--border:rgba(45,39,39,.12)}
+[data-theme=wine]{--background:#f7f0f1;--surface:#fffafb;--primary:#823747;--primary-soft:#e5bdc5}[data-theme=peach]{--background:#fbf1e9;--surface:#fffaf6;--primary:#a85643;--primary-soft:#f0c9b6}
+*{box-sizing:border-box}html,body{max-width:100%;overflow-x:hidden}body{margin:0;background:var(--background);color:var(--text)}
+.focus-ring{@apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary}.safe-screen{min-height:100dvh;padding-bottom:env(safe-area-inset-bottom)}
+@media (prefers-reduced-motion:reduce){*,::before,::after{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}

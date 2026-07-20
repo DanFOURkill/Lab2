@@ -1,0 +1,2 @@
+import { NextResponse } from 'next/server';import { prisma } from '@/lib/prisma';import { getInvitation } from '@/lib/data';
+export async function POST(_:Request,{params}:{params:Promise<{slug:string}>}){const {slug}=await params;const inv=await getInvitation(slug);if(!inv)return NextResponse.json({error:'not found'},{status:404});await prisma.invitationResponse.upsert({where:{id:`open-${inv.id}`},create:{id:`open-${inv.id}`,invitationId:inv.id,answer:'opened',openedAt:new Date()},update:{openedAt:new Date()}});return NextResponse.json({ok:true});}

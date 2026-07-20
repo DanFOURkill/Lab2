@@ -1,0 +1,4 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "sqlite" url = env("DATABASE_URL") }
+model Invitation { id String @id @default(cuid()) slug String @unique recipientName String senderName String introText String questionText String acceptedText String finalText String availableDates Json activities Json contactUrl String? theme String @default("rose") allowDecline Boolean @default(true) multiSelectActivities Boolean @default(false) createdAt DateTime @default(now()) responses InvitationResponse[] }
+model InvitationResponse { id String @id @default(cuid()) invitationId String answer String selectedDate String? customDate String? selectedActivities Json comment String? openedAt DateTime? submittedAt DateTime? userAgent String? createdAt DateTime @default(now()) updatedAt DateTime @updatedAt invitation Invitation @relation(fields:[invitationId], references:[id], onDelete:Cascade) }

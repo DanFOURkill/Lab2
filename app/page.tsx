@@ -1,0 +1,3 @@
+import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
+export default function Home(){return <main className="safe-screen grid place-items-center p-6"><section className="max-w-xl rounded-[2rem] bg-surface p-8 text-center shadow-sm border border-line"><p className="text-sm uppercase tracking-[.3em] text-muted">mini story</p><h1 className="font-serif text-5xl mt-3">Тёплое приглашение на свидание</h1><p className="mt-4 text-muted">Создайте персональную ссылку, где получатель выберет дату и формат встречи.</p><div className="mt-8 flex flex-wrap justify-center gap-3"><Button asChild><Link href="/create">Создать приглашение</Link></Button><Button asChild variant="secondary"><Link href="/invite/demo">Открыть демо</Link></Button></div></section></main>}
