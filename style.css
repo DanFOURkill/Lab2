@@ -1,0 +1,427 @@
+/* Design tokens keep the romantic palette, glass surfaces and spacing consistent. */
+:root {
+  --bg: #fff4f8;
+  --ink: #3f2936;
+  --muted: #806575;
+  --rose: #ff6f9f;
+  --rose-dark: #e94f83;
+  --cream: #fffaf3;
+  --glass: rgba(255, 255, 255, 0.68);
+  --line: rgba(255, 111, 159, 0.25);
+  --shadow: 0 24px 70px rgba(204, 83, 129, 0.22);
+  --radius: 32px;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  color: var(--ink);
+  font-family: Manrope, system-ui, sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%, #ffe0eb 0 18%, transparent 32%),
+    radial-gradient(circle at 85% 0, #fff2c9 0 14%, transparent 31%),
+    linear-gradient(135deg, #fff7fb, #fff1e8 55%, #f7edff);
+}
+button,
+input {
+  font: inherit;
+}
+.ambient span {
+  position: fixed;
+  z-index: -2;
+  border-radius: 999px;
+  filter: blur(10px);
+  animation: float 12s ease-in-out infinite;
+}
+.ambient span:nth-child(1) {
+  width: 24rem;
+  height: 24rem;
+  left: -7rem;
+  top: 12%;
+  background: #ffd1e0;
+}
+.ambient span:nth-child(2) {
+  width: 18rem;
+  height: 18rem;
+  right: -4rem;
+  top: 8%;
+  background: #ffe8a8;
+  animation-delay: -4s;
+}
+.ambient span:nth-child(3) {
+  width: 21rem;
+  height: 21rem;
+  right: 15%;
+  bottom: -8rem;
+  background: #e8d8ff;
+  animation-delay: -7s;
+}
+.app-shell {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 44px;
+}
+/* Sticky progress indicator for the four-step invitation journey. */
+.progress {
+  position: sticky;
+  top: 16px;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 28px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 18px 45px rgba(149, 83, 111, 0.14);
+  backdrop-filter: blur(18px);
+}
+.progress__line {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  top: 50%;
+  height: 3px;
+  background: var(--line);
+  transform: translateY(-50%);
+  z-index: -1;
+}
+.progress__line span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #ff84ad, #ffbdcf);
+  transition: 0.5s;
+}
+.progress__step {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--muted);
+  font-weight: 800;
+  transition: 0.3s;
+}
+.progress__step.is-active,
+.progress__step.is-done {
+  color: white;
+  background: linear-gradient(135deg, var(--rose), #ffa2bf);
+  box-shadow: 0 12px 24px rgba(255, 111, 159, 0.25);
+}
+.screen {
+  display: none;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: 0.45s;
+}
+.screen.is-active {
+  display: block;
+  opacity: 1;
+  transform: none;
+}
+/* Shared glassmorphism card surface used by every screen. */
+.card {
+  position: relative;
+  overflow: hidden;
+  width: min(760px, 100%);
+  margin: auto;
+  padding: clamp(24px, 5vw, 54px);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: var(--radius);
+  background: var(--glass);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(24px);
+}
+.card--wide {
+  width: min(980px, 100%);
+}
+.intro-card {
+  text-align: center;
+  min-height: 640px;
+}
+.hero-art img {
+  width: min(360px, 72vw);
+  filter: drop-shadow(0 24px 34px rgba(205, 87, 130, 0.2));
+  animation: float 7s ease-in-out infinite;
+}
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--rose-dark);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+}
+h1,
+h2 {
+  font-family: "Playfair Display", serif;
+  line-height: 1.05;
+  margin: 0 0 16px;
+}
+h1 {
+  font-size: clamp(2.45rem, 7vw, 5.4rem);
+}
+h2 {
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+.lead {
+  font-size: 1.15rem;
+  color: var(--muted);
+  margin: 0 auto 28px;
+  max-width: 620px;
+}
+.btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 24px;
+  font-weight: 900;
+  cursor: pointer;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s,
+    opacity 0.25s;
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+.btn--primary {
+  color: white;
+  background: linear-gradient(135deg, var(--rose), #ff9fbd);
+  box-shadow: 0 16px 34px rgba(255, 111, 159, 0.34);
+}
+.btn--ghost {
+  color: var(--rose-dark);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--line);
+}
+.intro-actions {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  min-height: 90px;
+}
+.no-button {
+  position: relative;
+}
+.success-message,
+.official-message {
+  display: none;
+  margin: 18px 0;
+  color: var(--rose-dark);
+  font-weight: 900;
+  font-size: 1.2rem;
+}
+.is-visible {
+  display: block;
+}
+.yes-button {
+  transform: scale(var(--yes-scale, 1));
+}
+.field-group {
+  display: grid;
+  gap: 10px;
+  margin: 22px 0;
+}
+label {
+  font-weight: 900;
+}
+.input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 15px 18px;
+  color: var(--ink);
+  outline: none;
+}
+.input:focus {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 4px rgba(255, 111, 159, 0.14);
+}
+.chips,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.chip {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.65);
+  padding: 11px 15px;
+  color: var(--muted);
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.chip.is-selected {
+  background: #fff;
+  color: var(--rose-dark);
+  box-shadow: 0 12px 22px rgba(255, 111, 159, 0.18);
+}
+.actions--split {
+  justify-content: space-between;
+  margin-top: 28px;
+}
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.food-card {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.62);
+  padding: 18px;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.food-card:hover,
+.food-card.is-selected {
+  transform: translateY(-5px);
+  background: #fff;
+  box-shadow: 0 18px 34px rgba(211, 87, 131, 0.17);
+}
+.food-card__icon {
+  font-size: 2.2rem;
+}
+.food-card h3 {
+  margin: 8px 0 6px;
+}
+.food-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.final-card {
+  text-align: center;
+}
+.invitation-text {
+  margin: 24px auto;
+  padding: 24px;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.62);
+  font-size: 1.25rem;
+  line-height: 1.7;
+}
+.heart-orbit span,
+.floating-heart {
+  position: absolute;
+  animation: rise 4s linear forwards;
+  pointer-events: none;
+}
+.heart-orbit span {
+  font-size: 1.8rem;
+  opacity: 0.45;
+}
+.heart-orbit span:nth-child(1) {
+  left: 8%;
+  top: 22%;
+}
+.heart-orbit span:nth-child(2) {
+  right: 10%;
+  top: 16%;
+  animation-delay: 1s;
+}
+.heart-orbit span:nth-child(3) {
+  right: 18%;
+  bottom: 20%;
+  animation-delay: 2s;
+}
+.confetti-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 60;
+  transform: translate(-50%, 20px);
+  opacity: 0;
+  padding: 14px 20px;
+  border-radius: 18px;
+  background: #3f2936;
+  color: #fff;
+  font-weight: 800;
+  transition: 0.3s;
+}
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.return-dialog {
+  border: 0;
+  background: transparent;
+}
+.return-dialog::backdrop {
+  background: rgba(63, 41, 54, 0.28);
+  backdrop-filter: blur(8px);
+}
+.dialog-card {
+  max-width: 520px;
+  padding: 34px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.final-actions {
+  justify-content: center;
+}
+@keyframes float {
+  50% {
+    transform: translateY(-22px) translateX(10px);
+  }
+}
+@keyframes rise {
+  to {
+    transform: translateY(-120px) rotate(18deg);
+    opacity: 0;
+  }
+}
+/* Responsive layout: buttons and food cards become easier to tap on phones. */
+@media (max-width: 760px) {
+  .progress {
+    border-radius: 28px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .progress__line {
+    display: none;
+  }
+  .progress__step span {
+    display: none;
+  }
+  .food-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .intro-actions {
+    min-height: 120px;
+  }
+  .actions--split {
+    justify-content: center;
+  }
+  .btn {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+@media (max-width: 430px) {
+  .food-grid {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    padding: 24px;
+  }
+  .app-shell {
+    width: min(100% - 20px, 1120px);
+  }
+}

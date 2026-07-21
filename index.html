@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Романтичный сайт-приглашение на свидание"
+    />
+    <title>Приглашение на свидание ❤️</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="ambient" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="floating-hearts" id="floatingHearts" aria-hidden="true"></div>
+    <canvas
+      class="confetti-canvas"
+      id="confettiCanvas"
+      aria-hidden="true"
+    ></canvas>
+
+    <main class="app-shell">
+      <nav class="progress" aria-label="Прогресс приглашения">
+        <div class="progress__line"><span id="progressFill"></span></div>
+        <button class="progress__step is-active" data-step="0" type="button">
+          ❤️ <span>Приглашение</span>
+        </button>
+        <button class="progress__step" data-step="1" type="button">
+          📅 <span>Дата</span>
+        </button>
+        <button class="progress__step" data-step="2" type="button">
+          🍕 <span>Еда</span>
+        </button>
+        <button class="progress__step" data-step="3" type="button">
+          ✨ <span>Итог</span>
+        </button>
+      </nav>
+
+      <section class="screen is-active" data-screen="intro">
+        <article class="card intro-card" id="introCard">
+          <div class="hero-art" aria-label="Романтичная иллюстрация">
+            <img
+              src="assets/svg/romantic-scene.svg"
+              alt="Два сердца под луной"
+            />
+          </div>
+          <p class="eyebrow">Маленькое приглашение</p>
+          <h1 id="mainQuestion">Пойдёшь со мной на свидание? ❤️</h1>
+          <p class="lead" id="introText">
+            Я подготовил для тебя кое-что особенное.
+          </p>
+          <p class="success-message" id="yesMessage" role="status">
+            Я знал, что ты согласишься ❤️
+          </p>
+          <div class="intro-actions" id="introActions">
+            <button
+              class="btn btn--primary yes-button"
+              id="yesButton"
+              type="button"
+            >
+              ❤️ Да
+            </button>
+            <button
+              class="btn btn--ghost no-button"
+              id="noButton"
+              type="button"
+            >
+              🙈 Нет
+            </button>
+          </div>
+        </article>
+      </section>
+
+      <section class="screen" data-screen="date">
+        <article class="card">
+          <p class="eyebrow">Шаг 2</p>
+          <h2>Выберем идеальный день 📅</h2>
+          <div class="field-group">
+            <label for="dateInput">Дата свидания</label>
+            <input id="dateInput" class="input" type="date" />
+          </div>
+          <div class="chips" id="dateChips" aria-label="Быстрый выбор даты">
+            <button class="chip" type="button" data-date="today">
+              Сегодня
+            </button>
+            <button class="chip" type="button" data-date="tomorrow">
+              Завтра
+            </button>
+            <button class="chip" type="button" data-date="thisWeekend">
+              В эти выходные
+            </button>
+            <button class="chip" type="button" data-date="nextWeekend">
+              Следующие выходные
+            </button>
+          </div>
+          <div class="field-group">
+            <label for="timeInput">Время</label>
+            <input id="timeInput" class="input" type="time" />
+          </div>
+          <div class="chips" id="timeChips" aria-label="Быстрый выбор времени">
+            <button class="chip" type="button" data-time="17:00">17:00</button>
+            <button class="chip" type="button" data-time="18:00">18:00</button>
+            <button class="chip" type="button" data-time="19:00">19:00</button>
+            <button class="chip" type="button" data-time="20:00">20:00</button>
+            <button class="chip" type="button" data-time="21:00">21:00</button>
+            <button class="chip" type="button" data-time="custom">
+              Другое время
+            </button>
+          </div>
+          <div class="actions actions--split">
+            <button class="btn btn--ghost" data-back type="button">
+              ← Назад
+            </button>
+            <button class="btn btn--primary" id="dateNext" type="button">
+              Продолжить →
+            </button>
+          </div>
+        </article>
+      </section>
+
+      <section class="screen" data-screen="food">
+        <article class="card card--wide">
+          <p class="eyebrow">Шаг 3</p>
+          <h2>А теперь самое вкусное ❤️</h2>
+          <div class="food-grid" id="foodGrid"></div>
+          <div class="field-group">
+            <label for="customFood">Другой вариант</label>
+            <input
+              id="customFood"
+              class="input"
+              type="text"
+              placeholder="Например, тайская кухня или пикник"
+            />
+          </div>
+          <div class="actions actions--split">
+            <button class="btn btn--ghost" data-back type="button">
+              Назад
+            </button>
+            <button class="btn btn--primary" id="foodNext" type="button">
+              Посмотреть приглашение
+            </button>
+          </div>
+        </article>
+      </section>
+
+      <section class="screen" data-screen="summary">
+        <article class="card final-card">
+          <div class="heart-orbit" aria-hidden="true">
+            <span>❤️</span><span>💗</span><span>💕</span>
+          </div>
+          <p class="eyebrow">Финал</p>
+          <h2>Наше свидание назначено ❤️</h2>
+          <div class="invitation-text" id="summaryText"></div>
+          <p class="lead" id="finalMessage">
+            Буду очень ждать нашей встречи ❤️
+          </p>
+          <div class="actions final-actions">
+            <button class="btn btn--primary" id="confirmDate" type="button">
+              ❤️ Подтвердить свидание
+            </button>
+            <button class="btn btn--ghost" id="copyInvite" type="button">
+              📋 Скопировать приглашение
+            </button>
+            <button class="btn btn--ghost" id="downloadInvite" type="button">
+              📄 Скачать приглашение
+            </button>
+            <button class="btn btn--ghost" id="editChoice" type="button">
+              ✏️ Изменить выбор
+            </button>
+          </div>
+          <p class="official-message" id="officialMessage" role="status">
+            Теперь это официально ❤️<br />До нашей встречи осталось совсем
+            немного.
+          </p>
+        </article>
+      </section>
+    </main>
+
+    <dialog class="return-dialog" id="returnDialog">
+      <form method="dialog" class="dialog-card">
+        <h2>Ранее ты уже создала наше свидание ❤️</h2>
+        <p>
+          Можно продолжить с сохранённого места или начать волшебство заново.
+        </p>
+        <div class="actions">
+          <button
+            class="btn btn--primary"
+            id="continueSaved"
+            value="continue"
+            type="submit"
+          >
+            Продолжить
+          </button>
+          <button
+            class="btn btn--ghost"
+            id="restartSaved"
+            value="restart"
+            type="submit"
+          >
+            Создать заново
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="script.js"></script>
+  </body>
+</html>
