@@ -5,6 +5,7 @@ const CONFIG = {
   mainQuestion: "Пойдёшь со мной на свидание?",
   introductoryText: "Я подготовил для тебя кое-что особенное ❤️",
   finalMessage: "Буду очень ждать нашей встречи ❤️",
+  locale: "ru-RU",
 };
 
 const STORAGE_KEY = "romantic-date-invitation";
@@ -54,6 +55,7 @@ const foods = [
 function init() {
   $("#mainQuestion").textContent = `${CONFIG.mainQuestion} ❤️`;
   $("#introText").textContent = CONFIG.introductoryText;
+  document.documentElement.lang = CONFIG.locale.split("-")[0];
   $("#finalMessage").textContent = CONFIG.finalMessage;
   dateInput.min = toISODate(new Date());
   renderFoods();
@@ -87,6 +89,7 @@ function bindEvents() {
   $("#confirmDate").addEventListener("click", confirmDate);
   $("#copyInvite").addEventListener("click", copyInvitation);
   $("#downloadInvite").addEventListener("click", downloadInvitation);
+  $("#downloadAnswers").addEventListener("click", downloadAnswers);
   $("#editChoice").addEventListener("click", () => goTo(1));
   $("#continueSaved").addEventListener("click", () => {
     Object.assign(state, loadSaved());
@@ -224,10 +227,9 @@ function renderSummary() {
     `Значит встречаемся<br><strong>${formatDate(state.date)} в ${state.time}</strong>.<br><br>Будем есть ${state.food.title.toLowerCase()} ${state.food.icon}<br><br>И просто замечательно проведём время ❤️`;
 }
 function confirmDate() {
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify({ ...state, confirmed: true }),
-  );
+  // The result is stored only in this browser/profile under STORAGE_KEY.
+  // Use the copy/download buttons if the answer must be sent to another person.
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(getSavedPayload()));
   burstConfetti(260);
   launchHearts(38);
   $("#officialMessage").classList.add("is-visible");
@@ -240,12 +242,36 @@ function copyInvitation() {
   );
 }
 function downloadInvitation() {
-  const blob = new Blob([invitationPlainText()], {
-    type: "text/plain;charset=utf-8",
-  });
+  downloadFile(
+    "date-invitation.txt",
+    invitationPlainText(),
+    "text/plain;charset=utf-8",
+  );
+}
+function downloadAnswers() {
+  downloadFile(
+    "date-invitation-answers.json",
+    JSON.stringify(getSavedPayload(), null, 2),
+    "application/json;charset=utf-8",
+  );
+}
+function getSavedPayload() {
+  return {
+    confirmed: true,
+    girlName: CONFIG.girlName,
+    authorName: CONFIG.authorName,
+    date: state.date,
+    time: state.time,
+    food: state.food,
+    savedAt: new Date().toISOString(),
+    locale: CONFIG.locale,
+  };
+}
+function downloadFile(filename, content, type) {
+  const blob = new Blob([content], { type });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = "date-invitation.txt";
+  link.download = filename;
   link.click();
   URL.revokeObjectURL(link.href);
 }
@@ -283,7 +309,7 @@ function nextSaturday(date, addDays) {
   return result;
 }
 function formatDate(value) {
-  return new Intl.DateTimeFormat("ru-RU", {
+  return new Intl.DateTimeFormat(CONFIG.locale, {
     day: "numeric",
     month: "long",
   }).format(new Date(`${value}T12:00:00`));
