@@ -6,6 +6,9 @@ const CONFIG = {
   introductoryText: "Я подготовил для тебя кое-что особенное ❤️",
   finalMessage: "Буду очень ждать нашей встречи ❤️",
   locale: "ru-RU",
+  // Put your server endpoint here after deployment, for example: "/api/date-invitation".
+  // Leave an empty string to keep the project fully local/offline.
+  submissionEndpoint: "",
 };
 
 const STORAGE_KEY = "romantic-date-invitation";
@@ -226,14 +229,22 @@ function renderSummary() {
   $("#summaryText").innerHTML =
     `Значит встречаемся<br><strong>${formatDate(state.date)} в ${state.time}</strong>.<br><br>Будем есть ${state.food.title.toLowerCase()} ${state.food.icon}<br><br>И просто замечательно проведём время ❤️`;
 }
-function confirmDate() {
-  // The result is stored only in this browser/profile under STORAGE_KEY.
-  // Use the copy/download buttons if the answer must be sent to another person.
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(getSavedPayload()));
+async function confirmDate() {
+  const payload = getSavedPayload();
+
+  // The result is always stored in this browser/profile under STORAGE_KEY.
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+
   burstConfetti(260);
   launchHearts(38);
   $("#officialMessage").classList.add("is-visible");
-  showToast("Свидание сохранено в этом браузере ❤️");
+
+  if (!CONFIG.submissionEndpoint) {
+    showToast("Свидание сохранено в этом браузере ❤️");
+    return;
+  }
+
+  await submitToServer(payload);
 }
 function copyInvitation() {
   navigator.clipboard?.writeText(invitationPlainText()).then(
@@ -254,6 +265,23 @@ function downloadAnswers() {
     JSON.stringify(getSavedPayload(), null, 2),
     "application/json;charset=utf-8",
   );
+}
+async function submitToServer(payload) {
+  try {
+    const response = await fetch(CONFIG.submissionEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok)
+      throw new Error(`Server responded with ${response.status}`);
+
+    showToast("Свидание сохранено и отправлено тебе на сервер 💌");
+  } catch (error) {
+    console.error("Failed to submit invitation answers:", error);
+    showToast("Локально сохранено, но сервер не ответил. Проверь endpoint.");
+  }
 }
 function getSavedPayload() {
   return {
